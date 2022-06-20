@@ -1,6 +1,31 @@
-#include "Color.h"
+/*
+ * The MIT License (MIT)
+ * 
+ * Copyright © 2022 Daniel Porrey
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the “Software”), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+ #include "CHSL.h"
 
-CRGB Color::hslToRgb(unsigned int h, double s, double l)
+CRGB CHSL::toRgb()
+{
+  return CHSL::toRgb(this->h, this->s, this->l);
+}
+
+CRGB CHSL::toRgb(uint16_t h, double s, double l)
 {
   double hd = (double)(h % 360);
 
@@ -54,12 +79,12 @@ CRGB Color::hslToRgb(unsigned int h, double s, double l)
   return CRGB(r, g, b);
 }
 
-CRGB Color::hslToRgb(CHSL hsl)
+CRGB CHSL::toRgb(CHSL hsl)
 {
-  return Color::hslToRgb(hsl.h, hsl.s, hsl.l);
+  return CHSL::toRgb(hsl.h, hsl.s, hsl.l);
 }
 
-CHSL Color::rgbToHsl(byte r, byte g, byte b)
+CHSL CHSL::fromRgb(byte r, byte g, byte b)
 {
   const double toDouble = 1.0 / 255.0;
   double r1 = toDouble * r;
@@ -95,18 +120,23 @@ CHSL Color::rgbToHsl(byte r, byte g, byte b)
   return { round(60.0 * h1), saturation, lightness };
 }
 
-CHSL Color::rgbToHsl(CRGB rgb)
+CHSL CHSL::fromRgb(CRGB rgb)
 {
-  return Color::rgbToHsl(rgb.r, rgb.g, rgb.b);
+  return CHSL::fromRgb(rgb.r, rgb.g, rgb.b);
 }
 
-CHSL Color::incrementHue(CHSL hsl)
+void CHSL::incrementHue()
+{
+  this->h = ++this->h % 360;
+}
+
+CHSL CHSL::incrementHue(CHSL hsl)
 {
   hsl.h = ++hsl.h % 360;
   return hsl;
 }
 
-CRGB Color::rgbSpectrum(unsigned int index)
+CRGB CHSL::rgbSpectrum(uint32_t index)
 {
   CRGB returnValue = CRGB(0, 0, 0);
 
@@ -151,58 +181,6 @@ CRGB Color::rgbSpectrum(unsigned int index)
     returnValue.r = 255;
     returnValue.g = 0;
     returnValue.b = 0;
-  }
-
-  return returnValue;
-}
-
-//
-// Math
-//
-double Math::Max(double a, double b)
-{
-  double returnValue = a;
-
-  if (a > b)
-  {
-    returnValue = a;
-  }
-  else
-  {
-    returnValue = b;
-  }
-
-  return returnValue;
-}
-
-double Math::Min(double a, double b)
-{
-  double returnValue = a;
-
-  if (a < b)
-  {
-    returnValue = a;
-  }
-  else
-  {
-    returnValue = b;
-  }
-
-  return returnValue;
-}
-
-double Math::Modulo(double a, double b)
-{
-  return a - (b * ((int)(a / b)));
-}
-
-double Math::Abs(double a)
-{
-  double returnValue = a;
-
-  if (a < 0)
-  {
-    returnValue = a * -1;
   }
 
   return returnValue;
