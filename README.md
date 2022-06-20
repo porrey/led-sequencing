@@ -13,7 +13,7 @@ The files **IEffect.h** and **IEffect.cpp** define a base class for creating ani
 
 > The animations assume that the **[FastLED](https://fastled.io/)** library is being used.
 
-The constructor for an effect requires the CRGB array used by the FastLED library, the count of LEDs and optionally the frame rate. If Frame rate is not specified, it defauklts to 0 which disables the animation effect.
+The constructor for an effect requires the CRGB array used by the FastLED library, the count of LEDs and optionally the frame rate. If Frame rate is not specified, it defaults to 0 which disables the animation effect.
 
 ## Effects
 There are two animation effects in the example. 
@@ -25,4 +25,4 @@ This effect turns one LED on at a time, starting at the first LED in the sequenc
 This effect turns one LED on at a time, starting at the first LED in the sequence and continuing to the last. This effect also includes a tail where each subsequent LED in the tail decrease in brightness. The sequence of LEDs will appear to come out of the starting point and then disappear into the last LED position. After the last LED of the tail is displayed, the sequence repeats.
 
 ### Color.h
-The files **color.h** and **color.cpp** provide some additional functions for converting colors beetwen RGB and HSL. For exmaple, this library supports the need to change the brightness of an RGB color. There are also methods for get colors from a HUE color wheel.
+The files **color.h** and **color.cpp** provide some additional functions for converting colors between RGB and HSL. For example, this library supports the need to change the brightness of an RGB color. There are also methods for get colors from a HUE color wheel.
