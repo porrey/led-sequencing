@@ -28,5 +28,10 @@ This effect turns one LED on at a time, starting at the first LED in the sequenc
 
 The color and tail length can be specified in the constructor.
 
-### Color.h
-The files **color.h** and **color.cpp** provide some additional functions for converting colors between RGB and HSL. For example, this library supports the need to change the brightness of an RGB color. There are also methods for get colors from a HUE color wheel.
+### Supporting Files
+
+#### Color.hand Color.cpp
+The files **CHSL.h** and **CHSL.cpp** provide an HSL color class. HSL specifies colors in the form of hue, saturation and luminosity and is ideal for adjusting the brightness of a specific color. It is also useful for creating color wheel effects such as gradients and rainbows or spectrums.
+
+#### Math.h and Math.cpp
+The files **Math.h** and **Math.cpp** provides methods used by the color library.
