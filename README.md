@@ -49,7 +49,7 @@ The length of the stripe can be specified in the constructor.
 
 ## Supporting Files
 
-### Color.hand Color.cpp
+### Color.h and Color.cpp
 The files **CHSL.h** and **CHSL.cpp** provide an HSL color class. HSL specifies colors in the form of hue, saturation and luminosity and is ideal for adjusting the brightness of a specific color. It is also useful for creating color wheel effects such as gradients and rainbows or spectrums.
 
 ### Math.h and Math.cpp
