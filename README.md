@@ -1,7 +1,7 @@
 # LED Sequencing
 This code demonstrates how to sequence addressable LEDs without using loops or `delay()`. This allows the checking of I/O ports or other work to be done while animating addressable LEDs.
 
-## Driving Animation in the Loop
+## Driving Animation in loop()
 The INO file, **led.ino**, contains the main code. The key in this code segment is the `loop()`. The loop has code to check the status of four I/O ports (buttons) and also drives the animation by calling `animate()` on the current animation effect.
 
 > The I/O ports (buttons) are being managed with a library called **[AceButton](https://github.com/bxparks/AceButton)**. This allows the code to be simplified and adds more functionality to the overall application. A portion of **led.ino** code is initializing the buttons.
@@ -17,7 +17,7 @@ The constructor for an animation effect requires the CRGB array used by the Fast
 
 > Note frame length is the inverse of frame rate. 30 frames per second would yield a frame length of 33.33 milliseconds.
 
-## Effects
+## Sample Effects
 There are two animation effects in the example. 
 
 ### SingleColorEffect.h
