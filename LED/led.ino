@@ -27,6 +27,8 @@ using namespace ace_button;
 //
 #include "SingleColorEffect.h"
 #include "TailEffect.h"
+#include "ColorWheelStripeEffect.h"
+#include "SpinningRainbow.h"
 
 //
 // LED count; assumes all strips have the same number of LEDs.
@@ -64,13 +66,13 @@ CRGB _leds[LED_COUNT];
 //
 // Define the effects to be activated by the buttons.
 //
-const IEffect* _effect1 = new SingleColorEffect(_leds, LED_COUNT, 100, CRGB::Red);
-const IEffect* _effect2 = new SingleColorEffect(_leds, LED_COUNT, 65, CRGB::Green);
-const IEffect* _effect3 = new SingleColorEffect(_leds, LED_COUNT, 30, CRGB::Blue);
-const IEffect* _effect4 = new TailEffect(_leds, LED_COUNT, 100, CRGB::White, 4);
+const IEffect* _effect1 = new SingleColorEffect(_leds, LED_COUNT, 100, CRGB(245, 12, 12));
+const IEffect* _effect2 = new SpinningRainbow(_leds, LED_COUNT, 350);
+const IEffect* _effect3 = new ColorWheelStripeEffect(_leds, LED_COUNT, 10, 4);
+const IEffect* _effect4 = new TailEffect(_leds, LED_COUNT, 100, CRGB(0, 24, 210), 4, .65);
 
 //
-// Places the effects into an array.
+// Place the effects into an array.
 //
 const IEffect* _effects[] = { _effect1, _effect2, _effect3, _effect4 };
 
@@ -168,6 +170,11 @@ void setup()
   buttonConfig4->setFeature(ButtonConfig::kFeatureSuppressAfterLongPress);
 
   Serial.println("Button handler initialization complete.");
+
+  //
+  // Call reset on the default effect.
+  //
+  _effects[_currentEffect]->reset();
 }
 
 void loop()
@@ -282,6 +289,11 @@ void handleEvent(AceButton* button, uint8_t eventType, uint8_t /* buttonState */
           _currentEffect = 3;
           break;
       }
+
+      //
+      // Call reset() to initialize the animation effect.
+      //
+      _effects[_currentEffect]->reset();
 
       //
       // Change the reset mode.

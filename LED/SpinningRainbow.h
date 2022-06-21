@@ -21,10 +21,10 @@
 #include "IEffect.h"
 
 //
-// This animation effect will turn one LED on at a time using
-// the color specified during object creation.
+// This animation effect will cycle the entire strip
+// through the spectrum of colors.
 //
-class SingleColorEffect : public IEffect
+class SpinningRainbow : public IEffect
 {
   public:
     //
@@ -32,26 +32,53 @@ class SingleColorEffect : public IEffect
     //  leds:           The array of LEDs.
     //  numberOfLeds:   Specifies the number of LEDs.
     //  frameLength:    Specifies the length of time, in ms, to display a single frame.
-    //  color:          Specifies the color of the single LED.
     //
-    SingleColorEffect(CRGB *leds, uint32_t numberOfLeds, uint64_t frameLength, CRGB color) : IEffect(leds, numberOfLeds, frameLength)
+    SpinningRainbow(CRGB *leds, uint32_t numberOfLeds, uint64_t frameLength) : IEffect(leds, numberOfLeds, frameLength)
     {
-      this->_color = color;
+    }
+
+    //
+    // Resets this animation effect by setting the
+    // starting LED back to 0 and then calls the base
+    // implementation.
+    //
+    bool reset()
+    {
+      Serial.println("HueWheelEffect::reset()");
+
+      //
+      // Divide the hue (360) by the number of LEDs to
+      // to evenly distribute the hue range across each LED.
+      //
+      this->_offsetBase = (uint32_t)(360.0 / (float)this->_numberOfLeds);
+      Serial.print("Offset Base = "); Serial.println(this->_offsetBase);
+
+      //
+      // Call the base reset.
+      //
+      return IEffect::reset();
     }
 
   protected:
     bool onAnimate()
     {
-      //
-      // Set the previous LED to black (off).
-      //
-      int64_t previousIndex = (this->_index - 1) % this->_numberOfLeds;
-      this->setLed(previousIndex, CRGB::Black);
+      for (uint64_t i = 0; i < this->_numberOfLeds; i++)
+      {
+        //
+        // Calulate the hue for the current LED.
+        //
+        uint32_t hue = (this->_offsetBase * i);
 
-      //
-      // Set the current LED to the specified color.
-      //
-      this->setLed(this->_index, this->_color);
+        //
+        // Create the HSL color with the given hue.
+        //
+        CHSL hsl = CHSL(hue);
+
+        //
+        // Set the LED color.
+        //
+        this->setLed((i + this->_index) % this->_numberOfLeds, hsl.toRgb());
+      }
 
       //
       // Increment the index.
@@ -65,5 +92,5 @@ class SingleColorEffect : public IEffect
     }
 
   private:
-    CRGB _color = CRGB::White;
+    uint32_t _offsetBase = 0;
 };
