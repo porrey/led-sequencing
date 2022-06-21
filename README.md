@@ -47,10 +47,10 @@ This animation creates a stripe the travels the from one end of the LED strip to
 
 The length of the stripe can be specified in the constructor.
 
-### Supporting Files
+## Supporting Files
 
-#### Color.hand Color.cpp
+### Color.hand Color.cpp
 The files **CHSL.h** and **CHSL.cpp** provide an HSL color class. HSL specifies colors in the form of hue, saturation and luminosity and is ideal for adjusting the brightness of a specific color. It is also useful for creating color wheel effects such as gradients and rainbows or spectrums.
 
-#### Math.h and Math.cpp
+### Math.h and Math.cpp
 The files **Math.h** and **Math.cpp** provides methods used by the color library.
