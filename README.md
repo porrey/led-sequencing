@@ -31,12 +31,12 @@ This effect turns one LED on at a time, starting at the first LED in the sequenc
 The color, tail length and tail fade factor can be specified in the constructor.
 
 ### SpinningRainbow.h
-This animation effect will turn every LED in the strip on and create a spinning rainbow of color.
+This animation effect will turn every LED in the LED strip on and create a spinning rainbow of color.
 
 ### ColorWheelStripeEffect.h
-This animation creates a strip the travels the from one end of the strip to the other changing colors as it travels.
+This animation creates a stripe the travels the from one end of the LED strip to the other changing colors as it travels.
 
-The length of the strip can be specified in the constructor.
+The length of the stripe can be specified in the constructor.
 
 ### Supporting Files
 
