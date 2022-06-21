@@ -1,21 +1,30 @@
 # LED Sequencing
-This code demonstrates how to sequence addressable LEDs without using loops or `delay()`. This allows the checking of I/O ports or other work to be done while animating addressable LEDs.
+This code demonstrates how to sequence addressable LEDs without using loops or `delay()`. This allows the checking of I/O ports or other work to be done while animating addressable LEDs. This is achieved through an animation process.
 
 ## Driving Animation in loop()
-The INO file, **led.ino**, contains the main code. The key in this code segment is the `loop()`. The loop has code to check the status of four I/O ports (buttons) and also drives the animation by calling `animate()` on the current animation effect.
+This animation described above is achieved by creating a process where each change to the LED strip is considered a single frame. The LED strip is updated one frame at a time in `loop()` by calling `animate()` on an effect. An effect defines what changes frame by frame. The effect also controls the frame rate by specifying the length of a frame in milliseconds.
 
-> The I/O ports (buttons) are being managed with a library called **[AceButton](https://github.com/bxparks/AceButton)**. This allows the code to be simplified and adds more functionality to the overall application. A portion of **led.ino** code is initializing the buttons.
+## Changing Effects
+Each effect is defined in a separate class. One or more effects can be defined but only one can be active. The active effect can be changed dynamically while the program is running.
 
-Animations are added by creating a class that inherits from `IEffect` and draws a single "***frame***" each time `animate()` is called. The speed of the animation is controlled by setting the frame length (in ms) for each animation effect. The speed can be changed dynamically while the code is running. In order to facilitate large numbers of LEDs, it is important to design each animation efficiently. For example, only update LEDs that are changing in each frame rather than resetting and "*redrawing*" all LEDs on each frame update.
-
-## Animation Effects
+## Animation Effect Overview
 The files **IEffect.h** and **IEffect.cpp** define a base class for creating animations.
 
 > The animations assume that the **[FastLED](https://fastled.io/)** library is being used.
 
 The constructor for an animation effect requires the CRGB array used by the FastLED library, the count of LEDs and optionally the frame length in ms. If frame length is not specified, it defaults to `0` which disables the animation effect.
 
-> Note frame length is the inverse of frame rate. 30 frames per second would yield a frame length of 33.33 milliseconds.
+> Note frame length is the inverse of frame rate. 30 frames per second would yield a frame length of 33 milliseconds.
+
+Effects are create by inheriting from this base class and overriding `onAnimate()`. Other methods can be overridden depending on how much customization is necessary. Having all effects inherit from the same base class allows them to be easily stored in an array or similar structure so they can be selected/activated at run-time.
+
+# Sample Code
+## The INO
+The INO file, **led.ino**, contains the main code. The key in this code segment is the `loop()`. The loop has code to check the status of four I/O ports (buttons) and also drives the animation by calling `animate()` on the current animation effect.
+
+> The I/O ports (buttons) are being managed with a library called **[AceButton](https://github.com/bxparks/AceButton)**. This allows the code to be simplified and adds more functionality to the overall application. A portion of **led.ino** code is initializing the buttons.
+
+Animations are added by creating a class that inherits from `IEffect` and draws a single "***frame***" each time `animate()` is called. The speed of the animation is controlled by setting the frame length (in ms) for each animation effect. The speed can be changed dynamically while the code is running. In order to facilitate large numbers of LEDs, it is important to design each animation efficiently. For example, only update LEDs that are changing in each frame rather than resetting and "*redrawing*" all LEDs on each frame update.
 
 ## Sample Effects
 There are two animation effects in the example. 
