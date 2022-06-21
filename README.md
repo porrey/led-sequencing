@@ -13,7 +13,9 @@ The files **IEffect.h** and **IEffect.cpp** define a base class for creating ani
 
 > The animations assume that the **[FastLED](https://fastled.io/)** library is being used.
 
-The constructor for an animation effect requires the CRGB array used by the FastLED library, the count of LEDs and optionally the frame rate. If Frame rate is not specified, it defaults to `0` which disables the animation effect.
+The constructor for an animation effect requires the CRGB array used by the FastLED library, the count of LEDs and optionally the frame length in ms. If frame length is not specified, it defaults to `0` which disables the animation effect.
+
+> Note frame length is the inverse of frame rate. 30 frames per second would yield a frame length of 33.33 milliseconds.
 
 ## Effects
 There are two animation effects in the example. 
@@ -26,7 +28,15 @@ The color can be specified in the constructor.
 ### TailEffect.h
 This effect turns one LED on at a time, starting at the first LED in the sequence and continuing to the last. This effect also includes a tail where each subsequent LED in the tail decrease in brightness. The sequence of LEDs will appear to come out of the starting point and then disappear into the last LED position. After the last LED of the tail is displayed, the sequence repeats.
 
-The color and tail length can be specified in the constructor.
+The color, tail length and tail fade factor can be specified in the constructor.
+
+### SpinningRainbow.h
+This animation effect will turn every LED in the strip on and create a spinning rainbow of color.
+
+### ColorWheelStripeEffect.h
+This animation creates a strip the travels the from one end of the strip to the other changing colors as it travels.
+
+The length of the strip can be specified in the constructor.
 
 ### Supporting Files
 
