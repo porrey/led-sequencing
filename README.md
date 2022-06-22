@@ -24,7 +24,7 @@ Effects are create by inheriting from this base class and overriding `onAnimate(
 ## The INO
 The INO file, **led.ino**, contains the main code. The key in this code segment is the `loop()`. The loop has code to check the status of four I/O ports (buttons) and also drives the animation by calling `animate()` on the current animation effect.
 
-> NOTE: The I/O ports (buttons) are being managed with a library called **[AceButton](https://github.com/bxparks/AceButton)**. This allows the code to be simplified and adds more functionality to the overall application. A portion of **led.ino** code is initializing the buttons.
+> NOTE: The I/O ports (buttons) are being managed with a library called **[AceButton](https://github.com/bxparks/AceButton)**. This allows the code to be simplified and adds more functionality to the overall application. A large portion of the **led.ino** `setup()` code is initializing the buttons.
 
 Animations are added by creating a class that inherits from `IEffect` and draws a single "***frame***" each time `animate()` is called. The speed of the animation is controlled by setting the frame length (in ms) for each animation effect. The speed can be changed dynamically while the code is running. In order to facilitate large numbers of LEDs, it is important to design each animation efficiently. For example, only update LEDs that are changing in each frame rather than resetting and "*redrawing*" all LEDs on each frame update.
 
