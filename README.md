@@ -7,6 +7,8 @@ This animation described above is achieved by creating a process where each chan
 ## Changing Effects
 Each effect is defined in a separate class. One or more effects can be defined but only one can be active. The active effect can be changed dynamically while the program is running.
 
+The four push buttons are used to select a specific animation effect.
+
 ## Animation Effect Overview
 The files **IEffect.h** and **IEffect.cpp** define a base class for creating animations.
 
