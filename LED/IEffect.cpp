@@ -38,10 +38,18 @@ IEffect::IEffect(CRGB *leds, uint32_t numberOfLeds, uint64_t frameLength)
   this->_leds = leds;
   this->_numberOfLeds = numberOfLeds;
   this->frameLength = frameLength;
+
+  uint64_t minimumFrameLength = ((30 * numberOfLeds) + 50) / 1000;
+
+  if (frameLength < minimumFrameLength)
+  {
+    Serial.print("WARNING: The framelength "); Serial.print((float)frameLength); Serial.print(" is too low for "); Serial.print((float)numberOfLeds); Serial.print(" LEDs.");
+    Serial.print(" The minimum frame length is "); Serial.print((float)minimumFrameLength); Serial.println(" ms.");
+  }
 };
 
 //
-// Deconstructor: remove thr reference to the LEDs.
+// Deconstructor: remove the reference to the LEDs.
 //
 IEffect::~IEffect()
 {
@@ -60,6 +68,8 @@ bool IEffect::animate()
   {
     returnValue = this->onAnimate();
   }
+
+  return returnValue;
 };
 
 //
@@ -79,8 +89,7 @@ void IEffect::increment()
   //
   // Increment the index.
   //
-  this->_index = ++this->_index % this->_numberOfLeds;
-  //Serial.print("Index = "); Serial.println((float)this->_index);
+  this->_index = (this->_index + 1) % this->_numberOfLeds;
 }
 
 //
@@ -92,7 +101,7 @@ void IEffect::increment()
 //
 void IEffect::setLed(int64_t index, CRGB rgb)
 {
-  if (index >= 0 && index < this->_numberOfLeds)
+  if (index >= 0 && (uint64_t)index < this->_numberOfLeds)
   {
     this->_leds[index] = rgb;
   }
@@ -105,8 +114,6 @@ void IEffect::setLed(int64_t index, CRGB rgb)
 //
 bool IEffect::reset()
 {
-  Serial.println("IEffect::reset()");
-  
   //
   // Reset the current LED index to 0.
   //
@@ -146,7 +153,14 @@ bool IEffect::readyToAnimate()
     // runs a specified rate. If animate() is not called often enough
     // the effect may run slow.
     //
-    if (this->_lastAnimationTime == 0 || millis() - this->_lastAnimationTime >= this->frameLength)
+    uint64_t lastAnimation = millis() - this->_lastAnimationTime;
+
+    if (this->_lastAnimationTime != 0 && lastAnimation > (this->frameLength + 1))
+    {
+      Serial.print("WARNING: frame rate too high! ["); Serial.print((float)(lastAnimation - this->frameLength)); Serial.println(" ms]");
+    }
+
+    if (this->_lastAnimationTime == 0 || lastAnimation >= this->frameLength)
     {
       //
       // Get and store the value of millis()

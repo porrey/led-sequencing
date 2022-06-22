@@ -89,7 +89,7 @@ class TailEffect : public IEffect
       //
       // Increment the index.
       //
-      this->_index = ++this->_index % (this->_numberOfLeds + this->_tailLength + 1);
+      this->_index = (this->_index + 1) % (this->_numberOfLeds + this->_tailLength + 1);
 
       //
       // Return true since the animation was changed.

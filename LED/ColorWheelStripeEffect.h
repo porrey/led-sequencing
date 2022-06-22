@@ -64,10 +64,10 @@ class ColorWheelStripeEffect : public IEffect
     bool onAnimate()
     {
       //
-      // This animation will change the color of the stripe 15
+      // This animation will change the color of the stripe 5
       // times before moving it.
       //
-      if (this->_frame % 15 == 0)
+      if (this->_frame % 5 == 0)
       {
         //
         // Clear the first and last LED of the previous frame.
@@ -78,7 +78,7 @@ class ColorWheelStripeEffect : public IEffect
         //
         // Move the stripe forward.
         //
-        this->_currentStart = ++this->_currentStart % (this->_numberOfLeds + this->_length - 1);
+        this->_currentStart = (this->_currentStart + 1) % (this->_numberOfLeds + this->_length - 1);
         this->_currentEnd = this->_currentStart - this->_length + 1;
       }
 
@@ -95,7 +95,7 @@ class ColorWheelStripeEffect : public IEffect
       // Increment the frame counter. Limit the frame counter
       // in the range of 0 to 1529.
       //
-      this->_frame = ++this->_frame % 1530;
+      this->_frame = (this->_frame + 1) % 1530;
 
       //
       // Return true since the animation was changed.

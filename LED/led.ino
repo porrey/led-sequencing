@@ -1,23 +1,23 @@
 /*
- * The MIT License (MIT)
- * 
- * Copyright © 2022 Daniel Porrey
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
- * and associated documentation files (the “Software”), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
- * subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial 
- * portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
- * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+   The MIT License (MIT)
+
+   Copyright © 2022 Daniel Porrey
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+   and associated documentation files (the “Software”), to deal in the Software without restriction,
+   including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+   subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all copies or substantial
+   portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+   LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include "IEffect.h"
 #include <AceButton.h>
 using namespace ace_button;
@@ -66,15 +66,15 @@ CRGB _leds[LED_COUNT];
 //
 // Define the effects to be activated by the buttons.
 //
-const IEffect* _effect1 = new SingleColorEffect(_leds, LED_COUNT, 100, CRGB(245, 12, 12));
-const IEffect* _effect2 = new SpinningRainbow(_leds, LED_COUNT, 350);
-const IEffect* _effect3 = new ColorWheelStripeEffect(_leds, LED_COUNT, 10, 4);
-const IEffect* _effect4 = new TailEffect(_leds, LED_COUNT, 100, CRGB(0, 24, 210), 4, .65);
+IEffect* _effect1 = new SingleColorEffect(_leds, LED_COUNT, 75, CRGB(245, 12, 12));
+IEffect* _effect2 = new SpinningRainbow(_leds, LED_COUNT, 350);
+IEffect* _effect3 = new ColorWheelStripeEffect(_leds, LED_COUNT, 10, 4);
+IEffect* _effect4 = new TailEffect(_leds, LED_COUNT, 100, CRGB(0, 24, 210), 4, .65);
 
 //
 // Place the effects into an array.
 //
-const IEffect* _effects[] = { _effect1, _effect2, _effect3, _effect4 };
+IEffect* _effects[] = { _effect1, _effect2, _effect3, _effect4 };
 
 //
 // Using the AceButton library, define the 4 buttons.
@@ -175,6 +175,9 @@ void setup()
   // Call reset on the default effect.
   //
   _effects[_currentEffect]->reset();
+
+  uint64_t minimumFrameLength = (30 * LED_COUNT) + 50;
+  Serial.print("The minimum frame length for "); Serial.print((float) LED_COUNT); Serial.print(" LEDs is "); Serial.print((float)minimumFrameLength, 0); Serial.println(" µs.");
 }
 
 void loop()

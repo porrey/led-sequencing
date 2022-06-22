@@ -30,9 +30,9 @@ class CHSL
     CHSL();
     CHSL(uint16_t);
     CHSL(uint16_t, double, double);
-    uint16_t h;
-    double s;
-    double l;
+    uint16_t h = 0;
+    double s = 1.0;
+    double l = 0.5;
 
     CRGB toRgb();
     void incrementHue();

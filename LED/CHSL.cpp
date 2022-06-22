@@ -138,7 +138,7 @@ CHSL CHSL::fromRgb(byte r, byte g, byte b)
   double lightness = 0.5 * (max + min);
   double saturation = chroma == 0 ? 0 : chroma / (1.0 - Math::Abs((2.0 * lightness) - 1.0));
 
-  return { round(60.0 * h1), saturation, lightness };
+  return { (uint16_t)round(60.0 * h1), saturation, lightness };
 }
 
 CHSL CHSL::fromRgb(CRGB rgb)
@@ -148,12 +148,12 @@ CHSL CHSL::fromRgb(CRGB rgb)
 
 void CHSL::incrementHue()
 {
-  this->h = ++this->h % 360;
+  this->h = (this->h + 1) % 360;
 }
 
 CHSL CHSL::incrementHue(CHSL hsl)
 {
-  hsl.h = ++hsl.h % 360;
+  hsl.h = (hsl.h + 1) % 360;
   return hsl;
 }
 
